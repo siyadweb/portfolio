@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import logo from "../assets/ms-logo.png";
 
 const navItems = [
   { name: "About", href: "#about" },
@@ -13,8 +14,9 @@ const navItems = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
   const { scrollY } = useScroll();
-  
+
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
@@ -25,7 +27,9 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -41,20 +45,25 @@ const Navbar = () => {
       style={{ backgroundColor }}
     >
       <div className="max-w-6xl mx-auto">
-        <div className={`flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-300 ${
-          scrolled ? 'glass-card' : ''
-        }`}>
+        <div
+          className={`flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-300 ${
+            scrolled ? "glass-card" : ""
+          }`}
+        >
           {/* Logo */}
           <motion.a
             href="#"
-            className="text-2xl font-bold font-display"
             whileHover={{ scale: 1.05 }}
+            className="flex items-center"
           >
-            <span className="text-gradient">Dev</span>
-            <span className="text-foreground">Folio</span>
+            <img
+              src={logo}
+              alt="Muhammed Siyad"
+              className="h-12 w-auto"
+            />
           </motion.a>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <motion.button
@@ -67,6 +76,7 @@ const Navbar = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
               </motion.button>
             ))}
+
             <motion.button
               onClick={() => scrollToSection("#contact")}
               className="px-5 py-2 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium text-sm"
@@ -89,9 +99,12 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         <motion.div
-          className={`md:hidden overflow-hidden ${isOpen ? 'mt-4' : ''}`}
+          className={`md:hidden overflow-hidden ${isOpen ? "mt-4" : ""}`}
           initial={false}
-          animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+          animate={{
+            height: isOpen ? "auto" : 0,
+            opacity: isOpen ? 1 : 0,
+          }}
           transition={{ duration: 0.3 }}
         >
           <div className="glass-card p-6 space-y-4">
@@ -105,6 +118,7 @@ const Navbar = () => {
                 {item.name}
               </motion.button>
             ))}
+
             <motion.button
               onClick={() => scrollToSection("#contact")}
               className="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium"
